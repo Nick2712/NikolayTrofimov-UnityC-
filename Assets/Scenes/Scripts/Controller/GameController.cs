@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,7 +9,9 @@ namespace NikolayTrofimov_Game
     {
         [SerializeField] private EffectData _effectData;
         public PlayerType PlayerType = PlayerType.Ball;
-        private ListExecuteObject _interactiveObject;
+        private ListExecuteObject _listFixedUpdateObjects;
+        private List<IExecute> _listUpdateObjects;
+        private List<IExecute> _listLateUpdateObjects;
         private DisplayEndGame _displayEndGame;
         private DisplayBonuses _displayBonuses;
         private CameraController _cameraController;
@@ -29,7 +32,9 @@ namespace NikolayTrofimov_Game
 
         private void Awake()
         {
-            _interactiveObject = new ListExecuteObject();
+            _listFixedUpdateObjects = new ListExecuteObject();
+            _listLateUpdateObjects = new List<IExecute>();
+            _listUpdateObjects = new List<IExecute>();
 
             _reference = new Reference();
 
@@ -40,10 +45,10 @@ namespace NikolayTrofimov_Game
             }
 
             _cameraController = new CameraController(player.transform, _reference.MainCamera.transform);
-            _interactiveObject.AddExecuteObject(_cameraController);
+            _listLateUpdateObjects.Add(_cameraController);
 
             _playerController = new PlayerController(player, _effectData);
-            _interactiveObject.AddExecuteObject(_playerController);
+            _listUpdateObjects.Add(_playerController);
 
             _effectManager = new EffectManager(_playerController, _effectData, this);
 
@@ -57,8 +62,8 @@ namespace NikolayTrofimov_Game
             //    _interactiveObject.AddExecuteObject(_inputController);
             //}
 
-            _inputController = new InputController(player);
-            _interactiveObject.AddExecuteObject(_inputController);
+            _inputController = new InputController(player, _listFixedUpdateObjects);
+            _listFixedUpdateObjects.AddExecuteObject(_inputController);
 
 
             _displayEndGame = new DisplayEndGame(_reference.EndGame);
@@ -66,7 +71,7 @@ namespace NikolayTrofimov_Game
             _displayStartGame = new DisplayStartGame(_reference.EndGame);
             _displayWinGame = new DisplayWinGame(_reference.EndGame, this);
 
-            foreach (var o in _interactiveObject)
+            foreach (var o in _listFixedUpdateObjects)
             {
                 if (o is BadBonus badBonus)
                 {
@@ -130,15 +135,31 @@ namespace NikolayTrofimov_Game
 
         private void Update()
         {
-            for (var i = 0; i < _interactiveObject.Length; i++)
+            for (int i = 0; i < _listUpdateObjects.Count; i++)
             {
-                var interactiveObject = _interactiveObject[i];
+                _listUpdateObjects[i].Execute(Time.deltaTime);
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            for (var i = 0; i < _listFixedUpdateObjects.Length; i++)
+            {
+                var interactiveObject = _listFixedUpdateObjects[i];
 
                 if (interactiveObject == null)
                 {
                     continue;
                 }
-                interactiveObject.Execute(Time.deltaTime);
+                interactiveObject.Execute(Time.fixedDeltaTime);
+            }
+        }
+
+        private void LateUpdate()
+        {
+            for (int i = 0; i < _listLateUpdateObjects.Count; i++)
+            {
+                _listLateUpdateObjects[i].Execute(Time.deltaTime);
             }
         }
 
@@ -156,7 +177,7 @@ namespace NikolayTrofimov_Game
 
         public void Dispose()
         {
-            foreach (var o in _interactiveObject)
+            foreach (var o in _listFixedUpdateObjects)
             {
                 if (o is BadBonus badBonus)
                 {

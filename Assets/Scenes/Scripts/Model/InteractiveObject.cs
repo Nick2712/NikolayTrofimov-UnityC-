@@ -9,7 +9,7 @@ namespace NikolayTrofimov_Game
 
         private bool _isInteractable;
 
-        protected bool IsInteractable
+        public bool IsInteractable
         {
             get { return _isInteractable; }
             private set

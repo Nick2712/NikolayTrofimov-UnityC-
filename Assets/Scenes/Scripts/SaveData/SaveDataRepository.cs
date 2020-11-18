@@ -39,7 +39,6 @@ namespace NikolayTrofimov_Game
                 Name = "Nikolay",
                 IsEnabled = true
             };
-
             _data.Save(savePlayer, Path.Combine(_path, _fileName));
         }
 

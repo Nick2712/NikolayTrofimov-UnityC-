@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Geekbrains
+namespace NikolayTrofimov_Game
 {
 	public sealed class RadarObj : MonoBehaviour
 	{

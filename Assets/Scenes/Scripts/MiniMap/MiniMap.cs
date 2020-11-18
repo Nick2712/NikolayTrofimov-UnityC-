@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Geekbrains
+namespace NikolayTrofimov_Game
 {
 	public sealed class MiniMap : MonoBehaviour
 	{

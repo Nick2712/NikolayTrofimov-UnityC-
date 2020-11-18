@@ -6,13 +6,15 @@ namespace NikolayTrofimov_Game
     public sealed class InputController : IExecute
     {
         private readonly PlayerBase _playerBase;
+        private readonly ListExecuteObject _listExecuteObject;
         private readonly SaveDataRepository _saveDataRepository;
         private readonly KeyCode _savePlayer = KeyCode.C;
         private readonly KeyCode _loadPlayer = KeyCode.V;
 
-        public InputController(PlayerBase player)
+        public InputController(PlayerBase player, ListExecuteObject listExecuteObject)
         {
             _playerBase = player;
+            _listExecuteObject = listExecuteObject;
             _saveDataRepository = new SaveDataRepository();
         }
 
