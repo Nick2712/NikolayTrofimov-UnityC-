@@ -13,6 +13,8 @@ namespace NikolayTrofimov_Game
         {
             _player = player;
             _mainCamera = mainCamera;
+
+            //с этим неудобно управлять объектом
             //_mainCamera.LookAt(_player);
             _offset = _mainCamera.position - _player.position;
         }

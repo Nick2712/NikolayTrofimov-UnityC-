@@ -8,6 +8,7 @@ namespace NikolayTrofimov_Game
     public sealed class GameController : MonoBehaviour, IDisposable
     {
         [SerializeField] private EffectData _effectData;
+        [SerializeField] private GameObject _minimap;
         public PlayerType PlayerType = PlayerType.Ball;
         private ListExecuteObject _listFixedUpdateObjects;
         private List<IExecute> _listUpdateObjects;
@@ -22,6 +23,8 @@ namespace NikolayTrofimov_Game
         private DisplayStartGame _displayStartGame;
         private DisplayWinGame _displayWinGame;
         private CheckForWinGame _checkForWinGame;
+
+        private MiniMap _miniMap;
 
         private Reference _reference;
 
@@ -47,6 +50,9 @@ namespace NikolayTrofimov_Game
             _cameraController = new CameraController(player.transform, _reference.MainCamera.transform);
             _listLateUpdateObjects.Add(_cameraController);
 
+            _miniMap = new MiniMap(_minimap);
+            _listLateUpdateObjects.Add(_miniMap);
+
             _playerController = new PlayerController(player, _effectData);
             _listUpdateObjects.Add(_playerController);
 
@@ -56,6 +62,7 @@ namespace NikolayTrofimov_Game
 
             _checkForWinGame = new CheckForWinGame(this);
 
+            //с этим управление в билде не работает
             //if (Application.platform == RuntimePlatform.WindowsEditor)
             //{
             //    _inputController = new InputController(player);
@@ -76,6 +83,8 @@ namespace NikolayTrofimov_Game
                 if (o is BadBonus badBonus)
                 {
                     badBonus.SetEffectManager(_effectManager);
+
+                    //я избавился от всех событий, эти строки кода стали не нужны
                     //badBonus.OnCaughtPlayerChange += CaughtPlayer;
                     //badBonus.OnCaughtPlayerChange += _displayEndGame.GameOver;
                 }
