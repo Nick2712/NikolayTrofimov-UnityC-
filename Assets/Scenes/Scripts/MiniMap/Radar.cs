@@ -56,14 +56,14 @@ namespace NikolayTrofimov_Game
 			foreach (RadarObject radObject in _radObjects)
 			{
                 Vector3 radarPos = (radObject.Owner.transform.position -
-                                    _playerPos.position);
-                float distToObject = Vector3.Distance(_playerPos.position,
-                                         radObject.Owner.transform.position) * _mapScale;
-                float deltay = Mathf.Atan2(radarPos.x, radarPos.z) * Mathf.Rad2Deg -
-                               270 - _playerPos.eulerAngles.y;
-                radarPos.x = distToObject * Mathf.Cos(deltay * Mathf.Deg2Rad) * -1;
-                radarPos.z = distToObject * Mathf.Sin(deltay * Mathf.Deg2Rad);
-                radObject.Icon.transform.SetParent(_radarGameObject.transform);
+                                    _playerPos.position) * _mapScale;
+                //float distToObject = Vector3.Distance(_playerPos.position,
+                //                         radObject.Owner.transform.position) * _mapScale;
+                //float deltay = Mathf.Atan2(radarPos.x, radarPos.z) * Mathf.Rad2Deg -
+                //               270 - _playerPos.eulerAngles.y;
+                //radarPos.x = distToObject * Mathf.Cos(deltay * Mathf.Deg2Rad) * -1;
+                //radarPos.z = distToObject * Mathf.Sin(deltay * Mathf.Deg2Rad);
+                //radObject.Icon.transform.SetParent(_radarGameObject.transform);
                 radObject.Icon.transform.position = new Vector3(radarPos.x,
               radarPos.z, 0) + _radarGameObject.transform.position;
 

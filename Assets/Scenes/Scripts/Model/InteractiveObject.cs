@@ -28,6 +28,7 @@ namespace NikolayTrofimov_Game
             }
             Interaction();
             IsInteractable = false;
+            gameObject.SetActive(false);
         }
 
         protected abstract void Interaction();
