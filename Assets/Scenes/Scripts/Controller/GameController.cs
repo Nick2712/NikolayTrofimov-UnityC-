@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace NikolayTrofimov_Game
 {
     public sealed class GameController : MonoBehaviour, IDisposable
     {
         [SerializeField] private EffectData _effectData;
-        [SerializeField] private GameObject _minimap;
+        [SerializeField] private GameObject _miniMapGameObject;
+        [SerializeField] private GameObject _radarGameObject;
         public PlayerType PlayerType = PlayerType.Ball;
-        private ListExecuteObject _listFixedUpdateObjects;
+        private List<IExecute> _listFixedUpdateObjects;
+        //private ListExecuteObject _listFixedUpdateObjects;
         private List<IExecute> _listUpdateObjects;
         private List<IExecute> _listLateUpdateObjects;
         private DisplayEndGame _displayEndGame;
@@ -25,6 +28,7 @@ namespace NikolayTrofimov_Game
         private CheckForWinGame _checkForWinGame;
 
         private MiniMap _miniMap;
+        private Radar _radar;
 
         private Reference _reference;
 
@@ -35,10 +39,6 @@ namespace NikolayTrofimov_Game
 
         private void Awake()
         {
-            _listFixedUpdateObjects = new ListExecuteObject();
-            _listLateUpdateObjects = new List<IExecute>();
-            _listUpdateObjects = new List<IExecute>();
-
             _reference = new Reference();
 
             PlayerBase player = null;
@@ -47,11 +47,33 @@ namespace NikolayTrofimov_Game
                 player = _reference.PlayerBall;
             }
 
+            _radar = new Radar(player, _radarGameObject, this);
+
+            //_listFixedUpdateObjects = new ListExecuteObject();
+            _listFixedUpdateObjects = new List<IExecute>();
+            var interactiveObjects = UnityEngine.Object.FindObjectsOfType<InteractiveObject>();
+            for (var i = 0; i < interactiveObjects.Length; i++)
+            {
+                interactiveObjects[i].gameObject.AddComponent<RadarObj>().SetRadar(_radar);
+                if (interactiveObjects[i] is IExecute interactiveObject)
+                {
+                    _listFixedUpdateObjects.Add(interactiveObject);
+                }
+            }
+
+            
+
+            
+            _listLateUpdateObjects = new List<IExecute>();
+            _listUpdateObjects = new List<IExecute>();
+
             _cameraController = new CameraController(player.transform, _reference.MainCamera.transform);
             _listLateUpdateObjects.Add(_cameraController);
 
-            _miniMap = new MiniMap(_minimap);
+            _miniMap = new MiniMap(_miniMapGameObject);
             _listLateUpdateObjects.Add(_miniMap);
+
+            _listUpdateObjects.Add(_radar);
 
             _playerController = new PlayerController(player, _effectData);
             _listUpdateObjects.Add(_playerController);
@@ -70,7 +92,7 @@ namespace NikolayTrofimov_Game
             //}
 
             _inputController = new InputController(player, _listFixedUpdateObjects);
-            _listFixedUpdateObjects.AddExecuteObject(_inputController);
+            _listFixedUpdateObjects.Add(_inputController);
 
 
             _displayEndGame = new DisplayEndGame(_reference.EndGame);
@@ -142,6 +164,18 @@ namespace NikolayTrofimov_Game
             Debug.Log(CountBonuses);
         }
 
+        public Image InstantiateImage(GameObject parent, Image prefab)
+        {
+            var newImage = Instantiate(prefab);
+            newImage.transform.SetParent(parent.transform, false);
+            return newImage;
+        }
+
+        public void DestroyImage(Image destroingImage)
+        {
+            Destroy(destroingImage);
+        }
+
         private void Update()
         {
             for (int i = 0; i < _listUpdateObjects.Count; i++)
@@ -152,7 +186,7 @@ namespace NikolayTrofimov_Game
 
         private void FixedUpdate()
         {
-            for (var i = 0; i < _listFixedUpdateObjects.Length; i++)
+            for (var i = 0; i < _listFixedUpdateObjects.Count; i++)
             {
                 var interactiveObject = _listFixedUpdateObjects[i];
 

@@ -5,7 +5,13 @@ namespace NikolayTrofimov_Game
 {
 	public sealed class RadarObj : MonoBehaviour
 	{
-		[SerializeField] private Image _ico;
+		private Image _ico;
+		private Radar _radar;
+
+        private void Awake()
+        {
+            _ico = Resources.Load<Image>("MiniMap/RadarObject");
+		}
 
         private void OnValidate()
         {
@@ -14,12 +20,18 @@ namespace NikolayTrofimov_Game
 
         private void OnDisable()
 		{
-			Radar.RemoveRadarObject(gameObject);
+			_radar.RemoveRadarObject(gameObject);
 		}
 
-		private void OnEnable()
-		{
-			Radar.RegisterRadarObject(gameObject, _ico);
+		//private void OnEnable()
+		//{
+		//	_radar.RegisterRadarObject(gameObject, _ico);
+		//}
+
+		public void SetRadar(Radar radar)
+        {
+			_radar = radar;
+			_radar.RegisterRadarObject(gameObject, _ico);
 		}
 	}
 }

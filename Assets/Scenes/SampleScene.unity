@@ -2105,6 +2105,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _effectData: {fileID: 11400000, guid: 60e8f3ae44069b64e9e2a79d5378fe68, type: 2}
+  _miniMapGameObject: {fileID: 1351756030}
+  _radarGameObject: {fileID: 1790093658}
   PlayerType: 1
 --- !u!4 &827829371
 Transform:
@@ -3370,6 +3372,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1351756030 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 235698932076638053, guid: b51da88ebe2a4ea4789f606d08d10213,
+    type: 3}
+  m_PrefabInstance: {fileID: 431709372}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1381207180 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5564251628499728140, guid: 798ccd4922364094e95c5301d7995caf,
@@ -4320,6 +4328,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1945385809475487862, guid: bc728f179a0eba046bf0fcb28bd7e9d6,
     type: 3}
   m_PrefabInstance: {fileID: 1997426261}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1790093658 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2583060236658669053, guid: 2948526a48f88cd4499ceb194abd61fa,
+    type: 3}
+  m_PrefabInstance: {fileID: 2027649986}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1790759328
 GameObject:
@@ -5423,7 +5437,8 @@ PrefabInstance:
       propertyPath: m_Type
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2583060236658669051, guid: 2948526a48f88cd4499ceb194abd61fa, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2948526a48f88cd4499ceb194abd61fa, type: 3}
 --- !u!1 &2045069731
 GameObject:

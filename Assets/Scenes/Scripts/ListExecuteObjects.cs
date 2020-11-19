@@ -16,9 +16,11 @@ namespace NikolayTrofimov_Game
             var interactiveObjects = Object.FindObjectsOfType<InteractiveObject>();
             for (var i = 0; i < interactiveObjects.Length; i++)
             {
+                interactiveObjects[i].gameObject.AddComponent<RadarObj>();
                 if (interactiveObjects[i] is IExecute interactiveObject)
                 {
                     AddExecuteObject(interactiveObject);
+                    
                 }
             }
         }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 
 namespace NikolayTrofimov_Game
@@ -6,12 +7,12 @@ namespace NikolayTrofimov_Game
     public sealed class InputController : IExecute
     {
         private readonly PlayerBase _playerBase;
-        private readonly ListExecuteObject _listExecuteObject;
+        private readonly List<IExecute> _listExecuteObject;
         private readonly SaveDataRepository _saveDataRepository;
         private readonly KeyCode _savePlayer = KeyCode.C;
         private readonly KeyCode _loadPlayer = KeyCode.V;
 
-        public InputController(PlayerBase player, ListExecuteObject listExecuteObject)
+        public InputController(PlayerBase player, List<IExecute> listExecuteObject)
         {
             _playerBase = player;
             _listExecuteObject = listExecuteObject;
