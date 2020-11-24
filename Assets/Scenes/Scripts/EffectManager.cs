@@ -33,7 +33,7 @@ namespace NikolayTrofimov_Game
         public void GoodEffecting()
         {
             _gameController.AddBonuse(
-                Random.Range(_effectData.MinScoreCountGoodEffect, _effectData.MaxScortCountGoodEffect));
+                Random.Range(_effectData.MinScoreCountGoodEffect, _effectData.MaxScoreCountGoodEffect));
             _goodEffects[Random.Range(0, _goodEffects.Length)].Effect(_playerController, _gameController);
         }
 

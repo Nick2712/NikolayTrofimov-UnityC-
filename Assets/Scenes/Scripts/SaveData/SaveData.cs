@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 
 namespace NikolayTrofimov_Game
 {
     [Serializable]
+    [DataContract]
     public sealed class SaveData
     {
-        public string Name;
-        public Vector3Serializable Position;
-        public bool IsEnabled;
+        [DataMember] public string Name;
+        [DataMember] public Vector3Serializable Position;
+        [DataMember] public bool IsEnabled;
 
         public override string ToString()
         {
