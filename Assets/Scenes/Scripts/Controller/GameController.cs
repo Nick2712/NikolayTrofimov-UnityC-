@@ -90,8 +90,15 @@ namespace NikolayTrofimov_Game
             //    _inputController = new InputController(player);
             //    _interactiveObject.AddExecuteObject(_inputController);
             //}
-
-            _inputController = new InputController(player, _listFixedUpdateObjects);
+            //List<InteractiveObject> interactiveObjects1 = new List<InteractiveObject>();
+            //for(int i = 0; i < _listFixedUpdateObjects.Count; i++)
+            //{
+            //    if(_listFixedUpdateObjects[i] is InteractiveObject interactiveObject)
+            //    {
+            //        interactiveObjects1.Add(interactiveObject);
+            //    }
+            //}
+            _inputController = new InputController(player, new List<InteractiveObject>(interactiveObjects));
             _listFixedUpdateObjects.Add(_inputController);
 
 

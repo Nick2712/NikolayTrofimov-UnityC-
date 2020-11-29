@@ -7,15 +7,15 @@ namespace NikolayTrofimov_Game
     public sealed class InputController : IExecute
     {
         private readonly PlayerBase _playerBase;
-        private readonly List<IExecute> _listExecuteObject;
+        private readonly List<InteractiveObject> _listInteractiveObject;
         private readonly SaveDataRepository _saveDataRepository;
         private readonly KeyCode _savePlayer = KeyCode.C;
         private readonly KeyCode _loadPlayer = KeyCode.V;
 
-        public InputController(PlayerBase player, List<IExecute> listExecuteObject)
+        public InputController(PlayerBase player, List<InteractiveObject> listInteractiveObject)
         {
             _playerBase = player;
-            _listExecuteObject = listExecuteObject;
+            _listInteractiveObject = listInteractiveObject;
             _saveDataRepository = new SaveDataRepository();
         }
 
@@ -23,8 +23,8 @@ namespace NikolayTrofimov_Game
         {
             _playerBase.Move(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
 
-            if (Input.GetKeyDown(_savePlayer)) _saveDataRepository.Save(_playerBase);
-            if (Input.GetKeyDown(_loadPlayer)) _saveDataRepository.Load(_playerBase);
+            if (Input.GetKeyDown(_savePlayer)) _saveDataRepository.Save(_playerBase, _listInteractiveObject);
+            if (Input.GetKeyDown(_loadPlayer)) _saveDataRepository.Load(_playerBase, _listInteractiveObject);
         }
     }
 }

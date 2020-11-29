@@ -9,15 +9,35 @@ namespace NikolayTrofimov_Game
     {
         public void Save(T data, string path = null)
         {
-            var str = JsonUtility.ToJson(data);
-            File.WriteAllText(path, str);
+            if (data is List<SaveData> savedatas)
+            {
+                SaveData[] saveDatasArray = savedatas.ToArray();
+                var str = JsonHelper.ToJson(saveDatasArray, true);
+                File.WriteAllText(path, str);
+            }
+            else
+            {
+                var str = JsonUtility.ToJson(data);
+                File.WriteAllText(path, str);
+            }
+            
             // File.WriteAllText(path, str);
         }
 
         public T Load(string path = null)
         {
-            var str = File.ReadAllText(path);
-            return JsonUtility.FromJson<T>(str);
+            //T returnData = default;
+            if (typeof(T) == typeof(List<SaveData>))
+            {
+                var str = File.ReadAllText(path);
+                dynamic returnData = new List<SaveData>(JsonHelper.FromJson<SaveData>(str));
+                return returnData;
+            }
+            else
+            {
+                var str = File.ReadAllText(path);
+                return JsonUtility.FromJson<T>(str);
+            }
             // return JsonUtility.FromJson<T>(str);
         }
     }

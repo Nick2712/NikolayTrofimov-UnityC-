@@ -9,5 +9,11 @@ namespace NikolayTrofimov_Game
         {
             EditorWindow.GetWindow(typeof(MyWindowEditor), false, "Редактор бонусов");
         }
+
+        [MenuItem("Window/AlexeyPack окно")]
+        private static void MenuOptionAP()
+        {
+            EditorWindow.GetWindow(typeof(AlexeyPackWindow), false, "Окно Алексея Пак");
+        }
     }
 }
